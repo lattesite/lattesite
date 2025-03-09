@@ -1,0 +1,7 @@
+# IDEs
+/.idea/
+/.claude/
+/*.iml
+
+# Build outputs
+/out/

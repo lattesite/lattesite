@@ -1,0 +1,170 @@
+package lattesite.html.elements;
+
+import lattesite.css.HEXColor;
+import lattesite.css.StyleBlock;
+import lattesite.html.elements.attributes.Role;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+/** Base class for all HTML elements; manages tag name, attributes, inline styles, text, and children. */
+public abstract class HTMLElement {
+
+    private final HTMLElement parent;
+    private final String tagName;
+    private final boolean voidElement;
+    private boolean codeBlock;
+    private final List<HTMLElement> children;
+
+    private final Map<String, String> attributes;
+    private final Map<String, String> styles;
+    private String textContents;
+    private String innerHTML;
+
+    public HTMLElement(HTMLElement parent, String tagName, boolean voidElement) {
+        this(parent, tagName, voidElement, false);
+    }
+
+    public HTMLElement(HTMLElement parent, String tagName, boolean voidElement, boolean codeBlock) {
+        this.parent = parent;
+        this.tagName = tagName;
+        this.voidElement = voidElement;
+        this.codeBlock = codeBlock;
+        this.children = new ArrayList<>();
+        this.attributes = new LinkedHashMap<>();
+        this.styles = new LinkedHashMap<>();
+        this.textContents = null;
+        this.innerHTML = null;
+        if (parent != null) {
+            parent.addChild(this);
+        }
+    }
+
+    private void addChild(HTMLElement element) {
+        if (this.voidElement) {
+            throw new RuntimeException("Element \"" + this.tagName + "\" is specified as an Void element, hence cannot have children.");
+        }
+        this.children.add(element);
+    }
+
+    public List<HTMLElement> getChildren() {
+        return children;
+    }
+
+    public void addClass(String s) {
+        this.appendToProperty("class", s);
+    }
+
+    /** Adds the selector of the given {@link StyleBlock} as a CSS class on this element. */
+    public void addClass(StyleBlock sc) {
+        this.addClass(sc.getSelector());
+    }
+
+    private void appendToProperty(String key, String s) {
+        String value = this.attributes.get(key);
+        if (value == null) {
+            value = s;
+        } else {
+            value += " " + s;
+        }
+        this.attributes.put(key, value);
+    }
+
+    public void setInnerHTML(String innerHTML) {
+        this.innerHTML = innerHTML;
+    }
+
+    public void setText(String textContents) {
+        this.textContents = textContents;
+    }
+
+    public void setStyling(String key, HEXColor value) {
+        this.setStyling(key, value.toString());
+    }
+
+    public void setStyling(String key, int value) {
+        this.setStyling(key, Integer.toString(value));
+    }
+
+    public void setStyling(String key, String value) {
+        this.styles.put(key, value);
+    }
+
+    public String getTagName() {
+        return this.tagName;
+    }
+
+    public Map<String, String> getAttributes() {
+        return this.attributes;
+    }
+
+    /** @return {@code true} if the inner content of this element should be rendered verbatim, without indentation */
+    public boolean isCodeBlock() {
+        return this.codeBlock;
+    }
+
+    public Map<String, String> getStyles() {
+        return this.styles;
+    }
+
+    public String getInnerHTML() {
+        return this.innerHTML;
+    }
+
+    public String getTextContents() {
+        return this.textContents;
+    }
+
+    public void setAttribute(String key, int value) {
+        this.attributes.put(key, Integer.toString(value));
+    }
+
+    public void setAttribute(String key, boolean value) {
+        this.attributes.put(key, Boolean.toString(value));
+    }
+
+    public void setAttribute(String key, String value) {
+        this.attributes.put(key, value);
+    }
+
+    public void removeAttribute(String key) {
+        this.attributes.remove(key);
+    }
+
+    public void setTitle(String title) {
+        if (title != null && !title.isEmpty()) {
+            this.setAttribute("title", title);
+        }
+    }
+
+    public boolean isVoidElement() {
+        return this.voidElement;
+    }
+
+    public void setID(String id) {
+        this.setAttribute("id", id);
+    }
+
+    public void setAriaLabel(String label) {
+        this.setAttribute("aria-label", label);
+    }
+
+    public String getID() {
+        return this.getAttribute("id");
+    }
+
+    private String getAttribute(String key) {
+        return this.attributes.get(key);
+    }
+
+    protected void setCodeBlock(boolean codeBlock) {
+        this.codeBlock = codeBlock;
+    }
+
+    public void setRole(Role role) {
+        this.setAttribute("role", role.getValue());
+    }
+
+}
