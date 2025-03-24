@@ -19,7 +19,6 @@ public abstract class HTMLElement {
     private final Map<String, String> styles;
     private String textContents;
     private String innerHTML;
-//    private final List<String> classes;
 
     public HTMLElement(HTMLElement parent, String tagName, boolean voidElement) {
         this(parent, tagName, voidElement, false);
@@ -56,7 +55,7 @@ public abstract class HTMLElement {
     }
 
     public void addClass(StyleBlock sc) {
-        this.addClass(sc.getClassName());
+        this.addClass(sc.getSelector());
     }
 
     private void appendToProperty(String key, String s) {
@@ -77,7 +76,7 @@ public abstract class HTMLElement {
         this.textContents = textContents;
     }
 
-    public void addStyle(String key, String value) {
+    public void setStyling(String key, String value) {
         this.styles.put(key, value);
     }
 

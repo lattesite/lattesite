@@ -5,68 +5,100 @@ import java.util.Map;
 
 public class StyleBlock {
 
-    private final String className;
-    private final Map<String, String> stylesDesktop;
-    private final Map<String, String> stylesMobile;
+    private final String selector;
+    private final int breakpoint;
+    private final Map<String, String> properties;
 
-    public StyleBlock(String className) {
-        this.className = className;
-        this.stylesDesktop = new LinkedHashMap<>();
-        this.stylesMobile = new LinkedHashMap<>();
+    public StyleBlock(String selector) {
+        this(selector, 0);
     }
 
-    public StyleBlock addStyling(String key, int value) {
-        return this.addStyling(key, Integer.toString(value));
+    public StyleBlock(String selector, int breakpoint) {
+        this.selector = selector;
+        this.breakpoint = breakpoint;
+        this.properties = new LinkedHashMap<>();
     }
 
-    public StyleBlock addStyling(String key, String value) {
-        this.stylesDesktop.put(key, value);
+    public StyleBlock setProperty(String key, int value) {
+        return this.setProperty(key, Integer.toString(value));
+    }
+
+    public StyleBlock setProperty(String key, String value) {
+        this.properties.put(key.trim(), value.trim());
         return this;
     }
 
-    public StyleBlock addMobileStyling(String key, int value) {
-        return this.addMobileStyling(key, Integer.toString(value));
-    }
-
-    public StyleBlock addMobileStyling(String key, String value) {
-        this.stylesMobile.put(key, value);
+    public StyleBlock setProperties(Map<String, String> properties) {
+        this.properties.putAll(properties);
         return this;
     }
 
-    public String getClassName() {
-        return this.className;
+    public String getSelector() {
+        return this.selector;
     }
 
-    public Map<String, String> getStylesDesktop() {
-        return this.stylesDesktop;
+    public Map<String, String> getProperties() {
+        return this.properties;
     }
 
-    public Map<String, String> getMobileStyles() {
-        return this.stylesMobile;
+    public int getBreakpoint() {
+        return this.breakpoint;
     }
 
     /*
-     * Common styling
+     * Common properties
      */
 
     public StyleBlock setColor(String value) {
-        return this.addStyling("color", value);
+        return this.setProperty("color", value);
     }
 
     public StyleBlock setTextAlign(String value) {
-        return this.addStyling("text-align", value);
+        return this.setProperty("text-align", value);
     }
 
     public StyleBlock setTextDecoration(String value) {
-        return this.addStyling("text-decoration", value);
+        return this.setProperty("text-decoration", value);
     }
 
     public StyleBlock setFontSize(String value) {
-        return this.addStyling("font-size", value);
+        return this.setProperty("font-size", value);
     }
 
     public StyleBlock setBackgroundColor(String value) {
-        return this.addStyling("background-color", value);
+        return this.setProperty("background-color", value);
+    }
+
+    public StyleBlock setFontFamily(String value) {
+        return this.setProperty("font-family", value);
+    }
+
+    public StyleBlock setMarginTop(int px) {
+        return this.setProperty("margin-top", px + "px");
+    }
+
+    public StyleBlock setMarginBottom(int px) {
+        return this.setProperty("margin-bottom", px + "px");
+    }
+
+    public StyleBlock setLineHeight(String value) {
+        return this.setProperty("line-height", value);
+    }
+
+    public StyleBlock setDisplay(String value) {
+        return this.setProperty("display", value);
+    }
+
+    public StyleBlock setGap(int px) {
+        return this.setProperty("gap", px + "px");
+    }
+
+    public StyleBlock setCursor(String cursor) {
+        return this.setProperty("cursor", cursor);
+    }
+
+    public StyleBlock setFlexWrap(String value) {
+        return this.setProperty("flex-wrap", value);
     }
 
 }

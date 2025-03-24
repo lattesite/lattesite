@@ -20,9 +20,10 @@ So I started to create my own SSG using the most popular and versatile backend l
 
  - Generate HTML based on POJO
  - Sitemap generator
- - Structured Data
+ - Structured Data support
  - Maintains a public/ and static/ folder structure
  - Localization support
+ - A built-in basic CSS/Stylesheet framework
 
 
 
@@ -80,15 +81,15 @@ The framework currently consists of these main features:
 
 
 
-## Join the development (Discord Server)
+## Discord
 
-- There is a very basic Discord server here you can join: https://discord.gg/tmcydvJdrq
+- https://discord.gg/tmcydvJdrq
 
 
 
-## What about CSS and JavaScript?
+## What about JavaScript?
 
-At the current time, there is no official way to attach CSS or JavaScript.
+At the current time, there is no official way to implement JavaScript.
 
 This means that for the time being you can use whatever frameworks you want.
 
