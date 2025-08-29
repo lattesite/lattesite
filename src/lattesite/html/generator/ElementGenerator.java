@@ -42,7 +42,7 @@ public class ElementGenerator {
                 String value = item.getValue();
                 styleValue += name + ": " + htmlEncode(value) + "; ";
             }
-            html += indentation.repeat(level + 1) + "style=\"" + styleValue.trim() + "\"";
+            html += indentation.repeat(level + 1) + "style=\"" + styleValue.trim() + "\"" + this.nl;
         }
 
         html += indentation.repeat(level) + ">";

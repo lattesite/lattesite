@@ -32,4 +32,8 @@ public class HTMLScriptElement extends HTMLElement {
         this.setAttribute("type", type);
     }
 
+    public void setAsync(boolean async) {
+        this.setAttribute("async", async);
+    }
+
 }

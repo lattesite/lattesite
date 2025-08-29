@@ -7,8 +7,14 @@ public class StyleContext {
 
     private final Set<StyleBlock> blocks = new LinkedHashSet<>();
 
+    @Deprecated
     public StyleBlock addClass(String className, OnCreation onCreation) {
-        return this.addBlock("." + className, onCreation);
+        return this.addSelector("." + className, onCreation);
+    }
+
+    @Deprecated
+    public StyleBlock addClass(String className, int breakpoint, OnCreation onCreation) {
+        return this.addSelector("." + className, breakpoint, onCreation);
     }
 
     public StyleBlock addSubBlock(StyleBlock parent, String selector, OnCreation onCreation) {
@@ -16,18 +22,26 @@ public class StyleContext {
     }
 
     public StyleBlock addSubBlock(StyleBlock parent, String selector, int breakpoint, OnCreation onCreation) {
-        return this.addBlock(parent.getSelector() + selector, breakpoint, onCreation);
+        return this.addSelector(parent.getSelector() + selector, breakpoint, onCreation);
     }
 
-    public StyleBlock addBlock(String selector, OnCreation onCreation) {
-        return addBlock(selector, 0, onCreation);
+    public StyleBlock addSelector(String selector, OnCreation onCreation) {
+        return addSelector(selector, 0, onCreation);
     }
 
-    public StyleBlock addBlock(StyleBlock block, int breakpoint, OnCreation onCreation) {
-        return addBlock(block.getSelector(), breakpoint, onCreation);
+    public StyleBlock addBlock(StyleBlock parent, int breakpoint, OnCreation onCreation) {
+        return addSelector(parent.getSelector(), breakpoint, onCreation);
     }
 
-    public StyleBlock addBlock(String selector, int breakpoint, OnCreation onCreation) {
+    public StyleBlock addBlock(StyleBlock parent, String selector, OnCreation onCreation) {
+        return this.addSelector(parent.getSelector() + " " + selector, onCreation);
+    }
+
+    public StyleBlock addBlock(StyleBlock parent, String selector, int breakpoint, OnCreation onCreation) {
+        return this.addSelector(parent.getSelector() + " " + selector, breakpoint, onCreation);
+    }
+
+    public StyleBlock addSelector(String selector, int breakpoint, OnCreation onCreation) {
         StyleBlock sc = new StyleBlock(selector, breakpoint);
 
         onCreation.initialize(sc);
@@ -46,9 +60,14 @@ public class StyleContext {
     }
 
     public StyleBlock addFontFace(String fontFamily, String src) {
+        return addFontFace(fontFamily, src, "auto");
+    }
+
+    public StyleBlock addFontFace(String fontFamily, String src, String fontDisplay) {
         StyleBlock block = new StyleBlock("@font-face");
         block.setProperty("font-family", fontFamily);
         block.setProperty("src", src);
+        block.setProperty("font-display", fontDisplay);
         this.blocks.add(block);
         return block;
     }

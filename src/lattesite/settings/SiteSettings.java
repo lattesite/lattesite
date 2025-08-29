@@ -1,42 +1,31 @@
 package lattesite.settings;
 
-import lattesite.localization.Locale;
+import lattesite.localization.locale.Locale;
 import lattesite.utils.StringUtil;
 
 import java.util.List;
 
 public class SiteSettings {
 
-    private final String siteName;
-    private final String baseURL;
     private final List<Locale> locales;
+
     private String publicFolder;
-    private String staticFolder;
-    private String brandColor;
+    private String staticRootFolder;
+    private String staticLocaleFolder;
 
     public SiteSettings(
-            String siteName,
-            String baseURL,
             Locale locale
     ) {
-        this(siteName, baseURL, List.of(locale));
+        this(List.of(locale));
     }
 
     public SiteSettings(
-            String siteName,
-            String baseURL,
             List<Locale> locales
     ) {
-        this.siteName = siteName;
-        this.baseURL = baseURL;
         this.locales = locales;
         this.publicFolder = "public/";
-        this.staticFolder = "static/";
-        this.brandColor = null;
-    }
-
-    public String getBaseURL() {
-        return this.baseURL;
+        this.staticRootFolder = "static_root/";
+        this.staticLocaleFolder = "static_locale/";
     }
 
     public List<Locale> getLocales() {
@@ -47,8 +36,12 @@ public class SiteSettings {
         return publicFolder;
     }
 
-    public String getStaticFolder() {
-        return this.staticFolder;
+    public String getStaticRootFolder() {
+        return this.staticRootFolder;
+    }
+
+    public String getStaticLocaleFolder() {
+        return this.staticLocaleFolder;
     }
 
     public void setPublicFolder(String publicFolder) throws Exception {
@@ -58,23 +51,18 @@ public class SiteSettings {
         this.publicFolder = publicFolder;
     }
 
-    public void setStaticFolder(String staticFolder) throws Exception {
-        if (StringUtil.isEmpty(staticFolder)) {
-            throw new Exception("Static folder cannot be empty.");
+    public void setStaticLocaleFolder(String staticLocaleFolder) throws Exception {
+        if (StringUtil.isEmpty(staticLocaleFolder)) {
+            throw new Exception("Static locale folder cannot be empty.");
         }
-        this.staticFolder = staticFolder;
+        this.staticLocaleFolder = staticLocaleFolder;
     }
 
-    public String getSiteName() {
-        return this.siteName;
-    }
-
-    public void setBrandColor(String brandColor) {
-        this.brandColor = brandColor;
-    }
-
-    public String getBrandColor() {
-        return this.brandColor;
+    public void setStaticRootFolder(String staticMainFolder) throws Exception {
+        if (StringUtil.isEmpty(staticMainFolder)) {
+            throw new Exception("Static root folder cannot be empty.");
+        }
+        this.staticRootFolder = staticMainFolder;
     }
 
 }

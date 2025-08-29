@@ -39,4 +39,8 @@ public class HTMLLinkElement extends HTMLElement {
         }
     }
 
+    public void setHrefLang(String language) {
+        this.setAttribute("hreflang", language);
+    }
+
 }

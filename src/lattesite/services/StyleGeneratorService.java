@@ -22,6 +22,10 @@ public class StyleGeneratorService implements StyleGeneratorServiceInterface {
 
     public String toCSS(StyleBlock block) {
 
+        if (block.getProperties().isEmpty()) {
+            return "";
+        }
+
         boolean hasBreakpoint = block.getBreakpoint() != 0;
 
         String css = "";

@@ -40,12 +40,17 @@ public class FileService {
     }
 
     public void deleteDirectory(String folder) throws Exception {
-        this.logService.log("Deleting folder  \"" + folder + "\".");
+        this.logService.log("Deleting folder \"" + folder + "\"...");
         try {
             FileUtils.deleteDirectory(new File(folder));
+            this.logService.log("Deletion done.");
         } catch (IOException exception) {
             throw new Exception(exception);
         }
+    }
+
+    public boolean exists(String file) {
+        return new File(file).exists();
     }
 
 }

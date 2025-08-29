@@ -7,7 +7,7 @@ import lattesite.html.elements.HTMLHeadElement;
 import lattesite.html.elements.HTMLRootElement;
 import lattesite.html.elements.HTMLStyleElement;
 import lattesite.html.generator.ElementGenerator;
-import lattesite.localization.Locale;
+import lattesite.localization.locale.Locale;
 import lattesite.page.Page;
 import lattesite.settings.SiteSettings;
 
@@ -21,28 +21,32 @@ public class PageGeneratorService {
     private final LogService logService;
     private final ElementGenerator elementGenerator;
     private final StyleGeneratorServiceInterface styleGeneratorService;
-    private final LinkService linkService;
     private final FileService fileService;
-    private String nl;
+    private final String nl;
 
     public PageGeneratorService(
             SiteSettings settings,
             LogService logService,
             ElementGenerator elementGenerator,
             StyleGeneratorServiceInterface styleGeneratorService,
-            LinkService linkService,
             FileService fileService
+    ) {
+        this(settings, logService, elementGenerator, styleGeneratorService, fileService, "\n");
+    }
+
+    public PageGeneratorService(
+            SiteSettings settings,
+            LogService logService,
+            ElementGenerator elementGenerator,
+            StyleGeneratorServiceInterface styleGeneratorService,
+            FileService fileService,
+            String nl
     ) {
         this.settings = settings;
         this.logService = logService;
         this.elementGenerator = elementGenerator;
         this.styleGeneratorService = styleGeneratorService;
-        this.linkService = linkService;
         this.fileService = fileService;
-        this.nl = "\n";
-    }
-
-    public void setNewLineCharacter(String nl) {
         this.nl = nl;
     }
 
@@ -59,7 +63,7 @@ public class PageGeneratorService {
 
         this.logService.log("Generating page " + page.getClass().getSimpleName() + " for locale " + locale + ".");
 
-        String pageFolder = "public" + this.linkService.createLocalizedURL(locale, page.getPathWithSlashes());
+        String pageFolder = "public/" + locale.getCode().toLowerCase() + page.getPathWithSlashes(locale);
 
         StyleContext styleContext = new StyleContext();
 

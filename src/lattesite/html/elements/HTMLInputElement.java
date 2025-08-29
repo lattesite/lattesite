@@ -30,6 +30,10 @@ public class HTMLInputElement extends HTMLElement {
         this.setAttribute("value", value);
     }
 
+    public void list(String list) {
+        this.setAttribute("list", list);
+    }
+
     public enum Type {
 
         TEXT("text"),

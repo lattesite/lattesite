@@ -1,45 +1,45 @@
 package lattesite.services;
 
-import lattesite.localization.Locale;
+import lattesite.localization.locale.Locale;
 import lattesite.page.Page;
 import lattesite.settings.SiteSettings;
+import lattesite.utils.URLUtil;
 
 import java.util.List;
 
 public class SitemapService {
 
     private final SiteSettings siteSettings;
-    private final LinkService linkService;
     private final String indentation;
     private final String nl;
     private final FileService fileService;
     private final LogService logService;
 
-    public SitemapService(SiteSettings siteSettings, LogService logService, LinkService linkService, FileService fileService) {
-        this(siteSettings, logService, linkService, fileService, "    ", "\n");
+    public SitemapService(SiteSettings siteSettings, LogService logService, FileService fileService) {
+        this(siteSettings, logService, fileService, "    ", "\n");
     }
 
-    public SitemapService(SiteSettings siteSettings, LogService logService, LinkService linkService, FileService fileService, String indentation, String nl) {
+    public SitemapService(SiteSettings siteSettings, LogService logService, FileService fileService, String indentation, String nl) {
         this.siteSettings = siteSettings;
         this.logService = logService;
-        this.linkService = linkService;
         this.fileService = fileService;
         this.indentation = indentation;
         this.nl = nl;
     }
 
-    public String generate(List<? extends Page> pages) throws Exception {
+    public void writeLocaleFile(Locale primaryLocale, List<Locale> allLocales, List<? extends Page> pages, String file) throws Exception {
+        String xml = generateLocaleFile(primaryLocale, allLocales, pages);
+        this.fileService.writeFile(file, xml);
+    }
 
-        this.logService.log("Generating sitemap for " + pages.size() + " pages.");
+    public String generateLocaleFile(Locale primaryLocale, List<Locale> allLocales, List<? extends Page> pages) throws Exception {
 
-        List<Locale> locales = this.siteSettings.getLocales();
+        this.logService.log("Generating sitemap with " + pages.size() + " pages for locale \"" + primaryLocale + "\".");
 
-        if (locales == null) {
-            throw new Exception("Cannot generate sitemap. List of locales in site settings is null.");
-        }
+//        List<Locale> locales = this.siteSettings.getLocales();
 
-        if (locales.isEmpty()) {
-            throw new Exception("Cannot generate sitemap. At least one Locale needs to be specified in site settings.");
+        if (primaryLocale == null) {
+            throw new Exception("Cannot generate sitemap. No primary locale was specified.");
         }
 
         String xml = "";
@@ -52,26 +52,46 @@ public class SitemapService {
                 continue;
             }
 
-            xml += this.indentation + "<url>\n";
-            xml += this.indentation.repeat(2) + "<loc>" + this.linkService.addBaseURL(this.siteSettings.getBaseURL(), page.getPathWithSlashes()) + "</loc>" + this.nl;
-            if (locales.size() >= 2) {
-                for (Locale locale : locales) {
-                    xml += this.indentation.repeat(2) + "<xhtml:link rel=\"alternate\" hreflang=\"" + locale.getCode() + "\" href=\"" + this.linkService.addBaseURL(this.siteSettings.getBaseURL(), this.linkService.createLocalizedURL(locale, page.getPathWithSlashes())) + "\"/>" + this.nl;
+            xml += this.indentation + "<url>" + this.nl;
+            xml += this.indentation.repeat(2) + "<loc>" + URLUtil.addBaseURL(primaryLocale.getBaseURL(), page.getPathWithSlashes(primaryLocale)) + "</loc>" + this.nl;
+            if (allLocales.size() >= 2) {
+                for (Locale locale : allLocales) {
+                    xml += this.indentation.repeat(2) + "<xhtml:link rel=\"alternate\" hreflang=\"" + locale.getCode() + "\" href=\"" + URLUtil.addBaseURL(locale.getBaseURL(), page.getPathWithSlashes(locale)) + "\"/>" + this.nl;
                 }
             }
             xml += this.indentation + "</url>" + this.nl;
         }
 
-        xml += "</urlset>" + nl;
+        xml += "</urlset>" + this.nl;
 
         return xml;
 
     }
 
-    public void generateToDisk(List<? extends Page> pages, String file) throws Exception {
-        this.logService.log("Will generating sitemap to \"" + file + "\".");
-        String xml = this.generate(pages);
+    public void writeIndexFile(List<Locale> allLocales, String file) throws Exception {
+        String xml = generateIndexFile(allLocales);
         this.fileService.writeFile(file, xml);
+    }
+
+    public String generateIndexFile(List<Locale> allLocales) {
+
+        this.logService.log("Generating index sitemap for " + allLocales.size() + " locales.");
+
+        String xml = "";
+
+        xml += "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + this.nl;
+        xml += "<sitemapindex xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">" + this.nl;
+
+        for (Locale locale : allLocales) {
+            xml += this.indentation + "<sitemap>" + this.nl;
+            xml += this.indentation.repeat(2) + "<loc>" + URLUtil.addBaseURL(locale.getBaseURL(), "/sitemap.xml") + "</loc>" + this.nl;
+            xml += this.indentation + "</sitemap>" + this.nl;
+        }
+
+        xml += "</sitemapindex>" + this.nl;
+
+        return xml;
+
     }
 
 }

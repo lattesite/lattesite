@@ -104,8 +104,20 @@ public abstract class HTMLElement {
         return this.textContents;
     }
 
+    public void setAttribute(String key, int value) {
+        this.attributes.put(key, Integer.toString(value));
+    }
+
+    public void setAttribute(String key, boolean value) {
+        this.attributes.put(key, Boolean.toString(value));
+    }
+
     public void setAttribute(String key, String value) {
         this.attributes.put(key, value);
+    }
+
+    public void removeAttribute(String key) {
+        this.attributes.remove(key);
     }
 
     public void setTitle(String title) {

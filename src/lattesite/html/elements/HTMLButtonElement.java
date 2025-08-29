@@ -12,4 +12,8 @@ public class HTMLButtonElement extends HTMLElement {
         this.setAttribute("type", "button");
     }
 
+    public void setDisabled(boolean disabled) {
+        super.setAttribute("disabled", disabled);
+    }
+
 }

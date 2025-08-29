@@ -21,6 +21,7 @@ So I started to create my own SSG using the most popular and versatile backend l
  - Generate HTML based on POJO
  - Sitemap generator
  - Structured Data support
+ - Google Merchant Feed (XML) support
  - Maintains a public/ and static/ folder structure
  - Localization support
  - A built-in basic CSS/Stylesheet framework

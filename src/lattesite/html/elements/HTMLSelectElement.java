@@ -6,4 +6,16 @@ public class HTMLSelectElement extends HTMLElement {
         super(parent, "select", false);
     }
 
+    public void setSize(int size) {
+        this.setAttribute("size", size);
+    }
+
+    public void setOnClick(String onClick) {
+        this.setAttribute("onclick", onClick);
+    }
+
+    public void setOnChange(String onChange) {
+        this.setAttribute("onchange", onChange);
+    }
+
 }
