@@ -6,6 +6,7 @@ package lattesite.google.merchant.enumerations;
 
 public enum ProductCategory {
 
+    FOOD_COFFEE("Food, Beverages & Tobacco > Beverages > Coffee", 1868),
     MOUSE_PADS("Electronics > Electronics Accessories > Computer Accessories > Mouse Pads", 1993),
     KEYBOARD_MOUSE_WRIST_RESTS("Electronics > Electronics Accessories > Computer Accessories > Keyboard & Mouse Wrist Rests", 6291),
     DRESSES("Apparel & Accessories > Clothing > Dresses", 2271),

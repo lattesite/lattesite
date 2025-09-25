@@ -248,17 +248,33 @@ public class StructuredDataService {
         data.put("@context", "https://schema.org/");
         data.put("@type", "Person");
 
-        data.put("url", sd.getURL());
-        data.put("image", sd.getImage());
-        data.put("description", sd.getDescription());
+        if (!StringUtil.isEmpty(sd.getURL())) {
+            data.put("url", sd.getURL());
+        }
+
+        if (!StringUtil.isEmpty(sd.getImage())) {
+            data.put("image", sd.getImage());
+        }
+
+        if (!StringUtil.isEmpty(sd.getDescription())) {
+            data.put("description", sd.getDescription());
+        }
 
         if (!StringUtil.isEmpty(sd.getKnowsLanguage())) {
             data.put("knowsLanguage", sd.getKnowsLanguage());
         }
 
-        data.put("sameAs", sd.getSameAs());
-        data.put("knowsAbout", sd.getKnowsAbout());
-        data.put("jobTitle", sd.getJobTitle());
+        if (sd.getSameAs() != null && sd.getSameAs().length != 0) {
+            data.put("sameAs", sd.getSameAs());
+        }
+
+        if (!StringUtil.isEmpty(sd.getKnowsAbout())) {
+            data.put("knowsAbout", sd.getKnowsAbout());
+        }
+        if (!StringUtil.isEmpty(sd.getJobTitle())) {
+            data.put("jobTitle", sd.getJobTitle());
+        }
+
         data.put("gender", sd.getGender().getValue());
         if (sd.getGivenName() != null) {
             data.put("givenName", sd.getGivenName());
@@ -374,19 +390,47 @@ public class StructuredDataService {
         if (!sd.getAwards().isEmpty()) {
             data.put("awards", sd.getAwards());
         }
-//        data.put("review", Collections.EMPTY_LIST);
-//
-//        Map<String, Object> aggregateRating = new LinkedHashMap<>();
-//        aggregateRating.put("@type", "AggregateRating");
-//        aggregateRating.put("ratingValue", 0);
-//        aggregateRating.put("reviewCount", 0);
-//        data.put("aggregateRating", aggregateRating);
+
+        if (!sd.getReviews().isEmpty()) {
+            List<Map<String, Object>> reviews = new ArrayList<>();
+            int totalRating = 0;
+            for (StructuredDataReview review : sd.getReviews()) {
+                reviews.add(toMap(review));
+                totalRating += review.getRatingValue();
+            }
+            data.put("review", reviews);
+            double averageRating = ((double) totalRating / (double) sd.getReviews().size());
+            Map<String, Object> aggregateRating = new LinkedHashMap<>();
+            aggregateRating.put("@type", "AggregateRating");
+            aggregateRating.put("ratingValue", averageRating);
+            aggregateRating.put("reviewCount", sd.getReviews().size());
+            data.put("aggregateRating", aggregateRating);
+        }
 
         List<Map<String, Object>> additionalProperties = new ArrayList<>();
         for (StructuredDataPropertyValue additionalProperty : sd.getAdditionalProperties()) {
             additionalProperties.add(toMap(additionalProperty));
         }
         data.put("additionalProperty", additionalProperties);
+
+        return data;
+    }
+
+    private Map<String, Object> toMap(StructuredDataReview sd) {
+        Map<String, Object> data = new LinkedHashMap<>();
+        data.put("@context", "https://schema.org/");
+        data.put("@type", "Review");
+
+        data.put("author", toMap(sd.getAuthor()));
+        data.put("datePublished", sd.getDatePublished());
+        data.put("reviewBody", sd.getReviewBody());
+
+        Map<String, Object> reviewRating = new LinkedHashMap<>();
+        reviewRating.put("@type", "Rating");
+        reviewRating.put("ratingValue", sd.getRatingValue());
+        reviewRating.put("worstRating", sd.getWorseRating());
+        reviewRating.put("bestRating", sd.getBestRating());
+        data.put("reviewRating", reviewRating);
 
         return data;
     }

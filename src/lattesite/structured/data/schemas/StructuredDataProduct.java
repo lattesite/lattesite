@@ -19,6 +19,7 @@ public class StructuredDataProduct implements StructuredDataSchema {
     private List<String> awards;
     private String ean;
     private String gtin;
+    private List<StructuredDataReview> reviews;
 
     public StructuredDataProduct(
             String name,
@@ -46,6 +47,7 @@ public class StructuredDataProduct implements StructuredDataSchema {
         this.awards = new ArrayList<>();
         this.ean = "";
         this.gtin = "";
+        this.reviews = new ArrayList<>();
     }
 
     @Override
@@ -123,6 +125,14 @@ public class StructuredDataProduct implements StructuredDataSchema {
 
     public void addAdditionalProperty(StructuredDataPropertyValue structuredDataPropertyValue) {
         this.additionalProperties.add(structuredDataPropertyValue);
+    }
+
+    public void setReviews(List<StructuredDataReview> reviews) {
+        this.reviews = reviews;
+    }
+
+    public List<StructuredDataReview> getReviews() {
+        return this.reviews;
     }
 
 }

@@ -5,35 +5,28 @@ import lattesite.structured.data.enumeration.GenderType;
 public class StructuredDataPerson {
 
     private final String name;
-    private final String description;
-    private final String image;
-    private final GenderType gender;
-    private final String url;
-    private final String jobTitle;
-    private final String knowsAbout;
-    private final String[] sameAs;
+    private GenderType gender;
+    private String jobTitle;
+    private String knowsAbout;
+    private String[] sameAs;
+    private String url;
+    private String description;
+    private String image;
     private String givenName;
     private String familyName;
     private final String knowsLanguage;
 
     public StructuredDataPerson(
-            String name,
-            String description,
-            String image,
-            GenderType gender,
-            String url,
-            String jobTitle,
-            String knowsAbout,
-            String[] sameAs
+            String name
     ) {
         this.name = name;
-        this.description = description;
-        this.image = image;
-        this.gender = gender;
-        this.url = url;
-        this.jobTitle = jobTitle;
-        this.knowsAbout = knowsAbout;
-        this.sameAs = sameAs;
+        this.gender = null;
+        this.jobTitle = "";
+        this.knowsAbout = "";
+        this.sameAs = new String[]{};
+        this.url = "";
+        this.description = "";
+        this.image = "";
         this.givenName = null;
         this.familyName = null;
         this.knowsLanguage = null;
@@ -53,6 +46,34 @@ public class StructuredDataPerson {
 
     public String getKnowsLanguage() {
         return this.knowsLanguage;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setGender(GenderType gender) {
+        this.gender = gender;
+    }
+
+    public void setJobTitle(String jobTitle) {
+        this.jobTitle = jobTitle;
+    }
+
+    public void setKnowsAbout(String knowsAbout) {
+        this.knowsAbout = knowsAbout;
+    }
+
+    public void setSameAs(String[] sameAs) {
+        this.sameAs = sameAs;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public void setURL(String url) {
+        this.url = url;
     }
 
     public String[] getSameAs() {

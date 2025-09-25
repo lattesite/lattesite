@@ -26,17 +26,15 @@ public class MainQuickExample {
 //        String familyName = "Simpson";
 
         StructuredDataPerson person = new StructuredDataPerson(
-                name,
-                description,
-                image,
-                gender,
-                url,
-                jobTitle,
-                knowsAbout,
-                sameAs
-//                givenName,
-//                familyName
+                name
         );
+        person.setDescription(description);
+        person.setImage(image);
+        person.setURL(url);
+        person.setJobTitle(jobTitle);
+        person.setKnowsAbout(knowsAbout);
+        person.setGender(gender);
+        person.setSameAs(sameAs);
 
         // Generate
         String json = structuredDataService.toJSON(person);
