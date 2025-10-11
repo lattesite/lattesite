@@ -1,5 +1,7 @@
 package lattesite.structured.data.schemas;
 
+import lattesite.structured.data.enumeration.IsicV4Category;
+
 public class StructuredDataMedicalClinic extends StructuredDataOrganization {
 
     public StructuredDataMedicalClinic(
@@ -7,7 +9,7 @@ public class StructuredDataMedicalClinic extends StructuredDataOrganization {
             String url,
             String description,
             StructuredDataCountry areaServed,
-            String[] isicV4Categories,
+            IsicV4Category[] isicV4Categories,
             String keywords,
             String knowsAbout
     ) {

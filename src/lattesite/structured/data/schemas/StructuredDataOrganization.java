@@ -1,5 +1,7 @@
 package lattesite.structured.data.schemas;
 
+import lattesite.structured.data.enumeration.IsicV4Category;
+
 public class StructuredDataOrganization implements StructuredDataSchema {
 
     private String type;
@@ -7,7 +9,7 @@ public class StructuredDataOrganization implements StructuredDataSchema {
     private final String url;
     private final String description;
     private final StructuredDataCountry areaServed;
-    private final String[] isicV4Categories; // https://unstats.un.org/unsd/trade/events/2013/foc/recommendations/1b%20-%20UN%20ISIC,%20Revision%204.pdf
+    private final IsicV4Category[] isicV4Categories;
     private final String keywords;
     private final String knowsAbout;
     private String foundingDate;
@@ -27,7 +29,7 @@ public class StructuredDataOrganization implements StructuredDataSchema {
             String url,
             String description,
             StructuredDataCountry areaServed,
-            String[] isicV4Categories,
+            IsicV4Category[] isicV4Categories,
             String keywords,
             String knowsAbout
     ) {
@@ -49,7 +51,7 @@ public class StructuredDataOrganization implements StructuredDataSchema {
             String url,
             String description,
             StructuredDataCountry areaServed,
-            String[] isicV4Categories,
+            IsicV4Category[] isicV4Categories,
             String keywords,
             String knowsAbout
     ) {
@@ -142,7 +144,7 @@ public class StructuredDataOrganization implements StructuredDataSchema {
         return this.foundingDate;
     }
 
-    public String[] getIsicV4Categories() {
+    public IsicV4Category[] getIsicV4Categories() {
         return this.isicV4Categories;
     }
 

@@ -1,6 +1,7 @@
 package lattesite.structured.data.services;
 
 import lattesite.services.LogService;
+import lattesite.structured.data.enumeration.IsicV4Category;
 import lattesite.structured.data.schemas.*;
 import lattesite.utils.StringUtil;
 
@@ -69,7 +70,14 @@ public class StructuredDataService {
         if (!StringUtil.isEmpty(sdOrganization.getFoundingDate())) {
             data.put("foundingDate", sdOrganization.getFoundingDate());
         }
-        data.put("isicV4", sdOrganization.getIsicV4Categories());
+        if (sdOrganization.getIsicV4Categories() != null && sdOrganization.getIsicV4Categories().length > 0) {
+            List<String> categories = new ArrayList<>();
+            for (IsicV4Category c : sdOrganization.getIsicV4Categories()) {
+                categories.add(c.getID());
+            }
+            data.put("isicV4", categories);
+        }
+
         if (sdOrganization.getBrand() != null) {
             Map<String, Object> dataBrand = this.toMap(sdOrganization.getBrand());
             data.put("brand", dataBrand);
@@ -207,6 +215,10 @@ public class StructuredDataService {
 
         Map<String, Object> dataIsPartOf = this.toMap(sdWebPage.getIsPartOf());
         data.put("isPartOf", dataIsPartOf);
+
+        if (sdWebPage.getAudience() != null) {
+            data.put("audience", toMap(sdWebPage.getAudience()));
+        }
 
         return data;
     }

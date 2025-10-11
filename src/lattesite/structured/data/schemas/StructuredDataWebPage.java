@@ -6,6 +6,7 @@ public class StructuredDataWebPage {
     private final String url;
     private final String description;
     private final StructuredDataWebSite isPartOf;
+    private StructuredDataPeopleAudience audience;
 
     public StructuredDataWebPage(
             String name,
@@ -17,6 +18,7 @@ public class StructuredDataWebPage {
         this.url = url;
         this.description = description;
         this.isPartOf = isPartOf;
+        this.audience = null;
     }
 
     public String getName() {
@@ -34,4 +36,13 @@ public class StructuredDataWebPage {
     public StructuredDataWebSite getIsPartOf() {
         return this.isPartOf;
     }
+
+    public void setAudience(StructuredDataPeopleAudience audience) {
+        this.audience = audience;
+    }
+
+    public StructuredDataPeopleAudience getAudience() {
+        return this.audience;
+    }
+
 }
