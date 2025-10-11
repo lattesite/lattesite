@@ -7,22 +7,12 @@ public class StyleContext {
 
     private final Set<StyleBlock> blocks = new LinkedHashSet<>();
 
-    @Deprecated
     public StyleBlock addClass(String className, OnCreation onCreation) {
         return this.addSelector("." + className, onCreation);
     }
 
-    @Deprecated
     public StyleBlock addClass(String className, int breakpoint, OnCreation onCreation) {
         return this.addSelector("." + className, breakpoint, onCreation);
-    }
-
-    public StyleBlock addSubBlock(StyleBlock parent, String selector, OnCreation onCreation) {
-        return this.addSubBlock(parent, selector, 0, onCreation);
-    }
-
-    public StyleBlock addSubBlock(StyleBlock parent, String selector, int breakpoint, OnCreation onCreation) {
-        return this.addSelector(parent.getSelector() + selector, breakpoint, onCreation);
     }
 
     public StyleBlock addSelector(String selector, OnCreation onCreation) {

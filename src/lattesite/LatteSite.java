@@ -69,12 +69,12 @@ public class LatteSite {
 //        }
 
         // Generate the index sitemap
-        String fileIndex = this.siteSettings.getPublicFolder() + "sitemap.xml";
+        String fileIndex = this.siteSettings.getPublicFolder() + "sitemap-index.xml";
         this.sitemapService.writeIndexFile(siteSettings.getLocales(), fileIndex);
 
         // Generate sitemap for each locale
         for (Locale primaryLocale : this.siteSettings.getLocales()) {
-            String fileLocale = this.siteSettings.getPublicFolder() + primaryLocale.getCode().toLowerCase() + "/sitemap.xml";
+            String fileLocale = this.siteSettings.getPublicFolder() + primaryLocale.getOutputSubFolderName() + "/sitemap.xml";
             this.sitemapService.writeLocaleFile(primaryLocale, siteSettings.getLocales(), pages, fileLocale);
         }
 

@@ -21,7 +21,7 @@ public interface Product {
 
     String getCurrency();
 
-    double getPrice() throws Exception;
+    String getPrice() throws Exception;
 
     List<String> getImageURLs();
 

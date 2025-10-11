@@ -30,14 +30,14 @@ public class MainQuickExample {
                 new MyProduct(
                         "Anna",
                         "sku_anna",
-                        199
+                        "199"
                 )
         );
         products.add(
                 new MyProduct(
                         "Steve",
                         "sku_steve",
-                        149.99
+                        "149.99"
                 )
         );
 
@@ -123,9 +123,9 @@ public class MainQuickExample {
 
         private final String title;
         private final String sku;
-        private final double price;
+        private final String price;
 
-        public MyProduct(String title, String sku, double price) {
+        public MyProduct(String title, String sku, String price) {
             this.title = title;
             this.sku = sku;
             this.price = price;
@@ -167,7 +167,7 @@ public class MainQuickExample {
         }
 
         @Override
-        public double getPrice() {
+        public String getPrice() {
             return this.price;
         }
 

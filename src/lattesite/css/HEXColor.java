@@ -13,4 +13,8 @@ public class HEXColor {
         return this.color;
     }
 
+    public String getHexCode() {
+        return this.color.substring(1);
+    }
+
 }

@@ -63,7 +63,7 @@ public class PageGeneratorService {
 
         this.logService.log("Generating page " + page.getClass().getSimpleName() + " for locale " + locale + ".");
 
-        String pageFolder = "public/" + locale.getCode().toLowerCase() + page.getPathWithSlashes(locale);
+        String pageFolder = "public/" + locale.getOutputSubFolderName() + page.getPathWithSlashes(locale);
 
         StyleContext styleContext = new StyleContext();
 

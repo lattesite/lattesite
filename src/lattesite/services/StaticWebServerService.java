@@ -27,7 +27,7 @@ public class StaticWebServerService implements StaticWebServerServiceInterface {
     }
 
     public void serve(Locale locale, int port) throws Exception {
-        this.serve(locale.getCode().toLowerCase() + "/", port);
+        this.serve(locale.getOutputSubFolderName(), port);
     }
 
     /**
@@ -40,6 +40,9 @@ public class StaticWebServerService implements StaticWebServerServiceInterface {
     public void serve(String subFolder, int port) throws Exception {
         try {
             String root = "public/" + subFolder;
+            if (!root.endsWith("/")) {
+                root = root + "/";
+            }
 
             this.server = HttpServer.create(new InetSocketAddress(port), 0);
             this.server.createContext("/", new StaticFileHandler(root));

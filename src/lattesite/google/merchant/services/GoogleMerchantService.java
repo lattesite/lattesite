@@ -108,7 +108,8 @@ public class GoogleMerchantService {
                 xml += this.indentation.repeat(3) + "<g:availability_date>" + product.getAvailability().getCode() + "</g:availability>" + this.nl;
             }
 
-            String price = product.getPrice() % 1 == 0 ? Integer.toString((int) product.getPrice()) : Double.toString(product.getPrice());
+            String price = product.getPrice();
+//            String price = product.getPrice() % 1 == 0 ? Integer.toString((int) product.getPrice()) : Double.toString(product.getPrice());
             xml += this.indentation.repeat(3) + "<g:price>" + price + " " + product.getCurrency() + "</g:price>" + this.nl;
 
             // Image links
