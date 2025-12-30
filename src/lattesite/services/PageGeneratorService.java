@@ -10,6 +10,7 @@ import lattesite.html.generator.ElementGenerator;
 import lattesite.localization.locale.Locale;
 import lattesite.page.Page;
 import lattesite.settings.SiteSettings;
+import lattesite.utils.StringUtil;
 
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -63,7 +64,12 @@ public class PageGeneratorService {
 
         this.logService.log("Generating page " + page.getClass().getSimpleName() + " for locale " + locale + ".");
 
-        String pageFolder = "public/" + locale.getOutputSubFolderName() + page.getPathWithSlashes(locale);
+        String pageFolder;
+        if (StringUtil.isEmpty(locale.getOutputSubFolderName())) {
+            pageFolder = "public" + page.getPathWithSlashes(locale);
+        } else {
+            pageFolder = "public/" + locale.getOutputSubFolderName() + page.getPathWithSlashes(locale);
+        }
 
         StyleContext styleContext = new StyleContext();
 

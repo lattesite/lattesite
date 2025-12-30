@@ -1,5 +1,6 @@
 package lattesite.html.elements;
 
+import lattesite.css.HEXColor;
 import lattesite.css.StyleBlock;
 
 import java.util.ArrayList;
@@ -74,6 +75,14 @@ public abstract class HTMLElement {
 
     public void setText(String textContents) {
         this.textContents = textContents;
+    }
+
+    public void setStyling(String key, HEXColor value) {
+        this.setStyling(key, value.toString());
+    }
+
+    public void setStyling(String key, int value) {
+        this.setStyling(key, Integer.toString(value));
     }
 
     public void setStyling(String key, String value) {

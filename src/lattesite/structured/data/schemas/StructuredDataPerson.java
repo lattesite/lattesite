@@ -2,19 +2,26 @@ package lattesite.structured.data.schemas;
 
 import lattesite.structured.data.enumeration.GenderType;
 
+import java.util.Collections;
+import java.util.List;
+
 public class StructuredDataPerson {
 
     private final String name;
     private GenderType gender;
     private String jobTitle;
     private String knowsAbout;
-    private String[] sameAs;
+    private List<String> sameAs;
     private String url;
     private String description;
     private String image;
     private String givenName;
     private String familyName;
-    private final String knowsLanguage;
+    private String knowsLanguage;
+    private String education;
+    private StructuredDataCountry nationality;
+    private StructuredDataContactPoint contactPoint;
+    private StructuredDataBrand brand;
 
     public StructuredDataPerson(
             String name
@@ -23,13 +30,29 @@ public class StructuredDataPerson {
         this.gender = null;
         this.jobTitle = "";
         this.knowsAbout = "";
-        this.sameAs = new String[]{};
+        this.sameAs = Collections.emptyList();
         this.url = "";
         this.description = "";
         this.image = "";
         this.givenName = null;
         this.familyName = null;
         this.knowsLanguage = null;
+        this.education = null;
+        this.nationality = null;
+        this.contactPoint = null;
+        this.brand = null;
+    }
+
+    public void setNationality(StructuredDataCountry nationality) {
+        this.nationality = nationality;
+    }
+
+    public void setContactPoint(StructuredDataContactPoint contactPoint) {
+        this.contactPoint = contactPoint;
+    }
+
+    public StructuredDataContactPoint getContactPoint() {
+        return this.contactPoint;
     }
 
     public String getURL() {
@@ -64,7 +87,7 @@ public class StructuredDataPerson {
         this.knowsAbout = knowsAbout;
     }
 
-    public void setSameAs(String[] sameAs) {
+    public void setSameAs(List<String> sameAs) {
         this.sameAs = sameAs;
     }
 
@@ -76,7 +99,7 @@ public class StructuredDataPerson {
         this.url = url;
     }
 
-    public String[] getSameAs() {
+    public List<String> getSameAs() {
         return this.sameAs;
     }
 
@@ -112,4 +135,23 @@ public class StructuredDataPerson {
         this.familyName = familyName;
     }
 
+    public void setEducation(String education) {
+        this.education = education;
+    }
+
+    public String getEducation() {
+        return this.education;
+    }
+
+    public StructuredDataCountry getNationality() {
+        return this.nationality;
+    }
+
+    public StructuredDataBrand getBrand() {
+        return brand;
+    }
+
+    public void setBrand(StructuredDataBrand brand) {
+        this.brand = brand;
+    }
 }

@@ -64,7 +64,7 @@ public class LatteSite {
 //            this.logService.log("Static locale folder is null. Skipping copying files.");
 //        } else {
         for (Locale locale : this.siteSettings.getLocales()) {
-            this.fileService.copyDirectory(siteSettings.getStaticLocaleFolder(), siteSettings.getPublicFolder() + locale.getCode().toLowerCase() + "/");
+            this.fileService.copyDirectory(siteSettings.getStaticLocaleFolder(), siteSettings.getPublicFolder() + locale.getOutputSubFolderName() + "/");
         }
 //        }
 

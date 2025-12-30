@@ -4,7 +4,6 @@ import lattesite.structured.data.enumeration.IsicV4Category;
 
 public class StructuredDataOrganization implements StructuredDataSchema {
 
-    private String type;
     private final String name;
     private final String url;
     private final String description;
@@ -33,29 +32,6 @@ public class StructuredDataOrganization implements StructuredDataSchema {
             String keywords,
             String knowsAbout
     ) {
-        this(
-                "Organization",
-                name,
-                url,
-                description,
-                areaServed,
-                isicV4Categories,
-                keywords,
-                knowsAbout
-        );
-    }
-
-    public StructuredDataOrganization(
-            String type,
-            String name,
-            String url,
-            String description,
-            StructuredDataCountry areaServed,
-            IsicV4Category[] isicV4Categories,
-            String keywords,
-            String knowsAbout
-    ) {
-        this.type = type;
         this.name = name;
         this.url = url;
         this.description = description;
@@ -85,7 +61,7 @@ public class StructuredDataOrganization implements StructuredDataSchema {
     }
 
     public String getType() {
-        return this.type;
+        return "Organization";
     }
 
     public void setKnowsLanguage(String knowsLanguage) {

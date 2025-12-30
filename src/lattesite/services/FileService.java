@@ -5,6 +5,10 @@ import org.apache.commons.io.FileUtils;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Comparator;
 
 public class FileService {
 
@@ -40,13 +44,33 @@ public class FileService {
     }
 
     public void deleteDirectory(String folder) throws Exception {
+        //        this.logService.log("Deleting folder \"" + folder + "\"...");
+//        try {
+//            FileUtils.deleteDirectory(new File(folder));
+//            this.logService.log("Deletion done.");
+//        } catch (IOException exception) {
+//            throw new Exception(exception);
+//        }
+
         this.logService.log("Deleting folder \"" + folder + "\"...");
-        try {
-            FileUtils.deleteDirectory(new File(folder));
-            this.logService.log("Deletion done.");
-        } catch (IOException exception) {
-            throw new Exception(exception);
+        Path path = Paths.get(folder);
+        if (!Files.exists(path)) {
+            return;
         }
+
+        // Use NIO traversal (faster) + Commons FileUtils for fallback deletion
+        Files.walk(path)
+                .sorted(Comparator.reverseOrder())
+                .parallel()
+                .forEach(p -> {
+                    try {
+                        Files.deleteIfExists(p);
+                    } catch (IOException e) {
+                        // Commons fallback
+                        FileUtils.deleteQuietly(p.toFile());
+                    }
+                });
+        this.logService.log("Deletion done.");
     }
 
     public boolean exists(String file) {

@@ -2,6 +2,7 @@ package lattesite.structured.data.schemas;
 
 public class StructuredDataArticle {
 
+    private final String type;
     private final String headline;
     private final String articleSection;
     private final String articleBody;
@@ -10,10 +11,10 @@ public class StructuredDataArticle {
     private final String dateModified;
     private final String datePublished;
     private final String url;
-    private final StructuredDataOrganization publisher;
     private final StructuredDataPeopleAudience audience;
-    private final StructuredDataPerson author;
-    private final StructuredDataPerson reviewer;
+    private StructuredDataOrganization publisherOrganization;
+    private StructuredDataPerson author;
+    private StructuredDataPerson reviewer;
 
     public StructuredDataArticle(
             String headline,
@@ -24,10 +25,35 @@ public class StructuredDataArticle {
             String dateModified,
             String datePublished,
             String url,
-            StructuredDataOrganization publisher,
-            StructuredDataPeopleAudience audience,
-            StructuredDataPerson author
+            StructuredDataPeopleAudience audience
     ) {
+        this(
+                "Article",
+                headline,
+                articleSection,
+                articleBody,
+                image,
+                description,
+                dateModified,
+                datePublished,
+                url,
+                audience
+        );
+    }
+
+    protected StructuredDataArticle(
+            String type,
+            String headline,
+            String articleSection,
+            String articleBody,
+            String image,
+            String description,
+            String dateModified,
+            String datePublished,
+            String url,
+            StructuredDataPeopleAudience audience
+    ) {
+        this.type = type;
         this.headline = headline;
         this.articleSection = articleSection;
         this.articleBody = articleBody;
@@ -36,10 +62,22 @@ public class StructuredDataArticle {
         this.dateModified = dateModified;
         this.datePublished = datePublished;
         this.url = url;
-        this.publisher = publisher;
+        this.publisherOrganization = null;
         this.audience = audience;
-        this.author = author;
+        this.author = null;
         this.reviewer = null;
+    }
+
+    public void setPublisherOrganization(StructuredDataOrganization publisherOrganization) {
+        this.publisherOrganization = publisherOrganization;
+    }
+
+    public void setAuthor(StructuredDataPerson author) {
+        this.author = author;
+    }
+
+    public void setReviewer(StructuredDataPerson reviewer) {
+        this.reviewer = reviewer;
     }
 
     public String getHeadline() {
@@ -86,7 +124,12 @@ public class StructuredDataArticle {
         return this.audience;
     }
 
-    public StructuredDataOrganization getPublisher() {
-        return this.publisher;
+    public StructuredDataOrganization getPublisherOrganization() {
+        return this.publisherOrganization;
     }
+
+    public String getType() {
+        return this.type;
+    }
+
 }

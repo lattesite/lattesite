@@ -27,6 +27,9 @@ public final class URLUtil {
     }
 
     public static String localizeURL(Locale locale, String pathWithSlashes) {
+        if (StringUtil.isEmpty(locale.getOutputSubFolderName())) {
+            return pathWithSlashes;
+        }
         return "/" + locale.getOutputSubFolderName() + pathWithSlashes;
     }
 

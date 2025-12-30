@@ -34,9 +34,8 @@ public class HTMLImageElement extends HTMLElement {
         this.setAttribute("width", Integer.toString(width));
     }
 
-    public HTMLImageElement setLoading(Loading loading) {
+    public void setLoading(Loading loading) {
         this.setAttribute("loading", loading.toString());
-        return this;
     }
 
     public enum Loading {

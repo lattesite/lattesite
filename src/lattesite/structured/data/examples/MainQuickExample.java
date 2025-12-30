@@ -5,6 +5,8 @@ import lattesite.structured.data.enumeration.GenderType;
 import lattesite.structured.data.schemas.StructuredDataPerson;
 import lattesite.structured.data.services.StructuredDataService;
 
+import java.util.List;
+
 public class MainQuickExample {
 
     public static void main(String[] args) throws Exception {
@@ -21,7 +23,7 @@ public class MainQuickExample {
         String url = "https://en.wikipedia.org/wiki/Homer_Simpson";
         String jobTitle = "Safety inspector at Springfield Nuclear Power Plant";
         String knowsAbout = "Donuts";
-        String[] sameAs = new String[]{"https://x.com/homerjsimpson"};
+        List<String> sameAs = List.of("https://x.com/homerjsimpson");
 //        String givenName = "Homer Jay";
 //        String familyName = "Simpson";
 

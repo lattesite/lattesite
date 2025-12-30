@@ -6,4 +6,8 @@ public class HTMLTableRowCellElement extends HTMLElement {
         super(parent, "td", false);
     }
 
+    public void setColSpan(int span) {
+        this.setAttribute("colspan", span);
+    }
+
 }

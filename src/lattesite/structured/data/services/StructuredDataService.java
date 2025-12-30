@@ -43,6 +43,62 @@ public class StructuredDataService {
         return data;
     }
 
+    private Map<String, Object> toMap(StructuredDataThing sdThing) {
+
+        Map<String, Object> data = new LinkedHashMap<>();
+        data.put("@context", "https://schema.org/");
+        data.put("@type", sdThing.getType());
+
+        data.put("name", sdThing.getName());
+
+        return data;
+    }
+
+    private Map<String, Object> toMap(StructuredDataDonateAction sdDonateAction) {
+        Map<String, Object> data = new LinkedHashMap<>();
+        data.put("@context", "https://schema.org/");
+        data.put("@type", sdDonateAction.getType());
+
+        data.put("name", sdDonateAction.getName());
+        data.put("description", sdDonateAction.getDescription());
+        data.put("object", toMap(sdDonateAction.getObject()));
+        data.put("target", sdDonateAction.getTarget());
+
+        if (sdDonateAction.getAgentPerson() != null) {
+            data.put("agent", toMap(sdDonateAction.getAgentPerson()));
+        }
+
+        if (sdDonateAction.getRecipientPerson() != null) {
+            data.put("recipient", toMap(sdDonateAction.getRecipientPerson()));
+        }
+
+        return data;
+    }
+
+    private Map<String, Object> toMap(StructuredDataLanguage sdLanguage) {
+
+        Map<String, Object> data = new LinkedHashMap<>();
+        data.put("@context", "https://schema.org/");
+        data.put("@type", sdLanguage.getType());
+
+        data.put("name", sdLanguage.getName());
+
+        return data;
+    }
+
+    private Map<String, Object> toMap(StructuredDataContactPoint sdContactPoint) {
+        Map<String, Object> data = new LinkedHashMap<>();
+        data.put("@context", "https://schema.org/");
+        data.put("@type", sdContactPoint.getType());
+
+        data.put("contactType", sdContactPoint.getContactType());
+        if (!StringUtil.isEmpty(sdContactPoint.getEmail())) {
+            data.put("email", sdContactPoint.getEmail());
+        }
+
+        return data;
+    }
+
     private Map<String, Object> toMap(StructuredDataOrganization sdOrganization) {
 
         Map<String, Object> dataAreaServed = this.toMap(sdOrganization.getAreaServed());
@@ -115,10 +171,14 @@ public class StructuredDataService {
     private Map<String, Object> toMap(StructuredDataWebSite sdWebSite) {
         Map<String, Object> data = new LinkedHashMap<>();
         data.put("@context", "https://schema.org/");
-        data.put("@type", "WebSite");
+        data.put("@type", sdWebSite.getType());
 
         data.put("name", sdWebSite.getName());
         data.put("url", sdWebSite.getURL());
+        data.put("description", sdWebSite.getDescription());
+        if (sdWebSite.getInLanguage() != null) {
+            data.put("inLanguage", toMap(sdWebSite.getInLanguage()));
+        }
 
         return data;
     }
@@ -129,6 +189,9 @@ public class StructuredDataService {
         data.put("@type", "Brand");
 
         data.put("name", sdBrand.getName());
+        if (!StringUtil.isEmpty(sdBrand.getLogo())) {
+            data.put("logo", sdBrand.getLogo());
+        }
 
         return data;
     }
@@ -207,11 +270,12 @@ public class StructuredDataService {
     private Map<String, Object> toMap(StructuredDataWebPage sdWebPage) {
         Map<String, Object> data = new LinkedHashMap<>();
         data.put("@context", "https://schema.org/");
-        data.put("@type", "WebPage");
+        data.put("@type", sdWebPage.getType());
 
         data.put("name", sdWebPage.getName());
         data.put("url", sdWebPage.getURL());
         data.put("description", sdWebPage.getDescription());
+        data.put("inLanguage", toMap(sdWebPage.getInLanguage()));
 
         Map<String, Object> dataIsPartOf = this.toMap(sdWebPage.getIsPartOf());
         data.put("isPartOf", dataIsPartOf);
@@ -272,11 +336,19 @@ public class StructuredDataService {
             data.put("description", sd.getDescription());
         }
 
+        if (sd.getNationality() != null) {
+            data.put("nationality", toMap(sd.getNationality()));
+        }
+
+        if (sd.getContactPoint() != null) {
+            data.put("contactPoint", toMap(sd.getContactPoint()));
+        }
+
         if (!StringUtil.isEmpty(sd.getKnowsLanguage())) {
             data.put("knowsLanguage", sd.getKnowsLanguage());
         }
 
-        if (sd.getSameAs() != null && sd.getSameAs().length != 0) {
+        if (sd.getSameAs() != null && !sd.getSameAs().isEmpty()) {
             data.put("sameAs", sd.getSameAs());
         }
 
@@ -299,13 +371,21 @@ public class StructuredDataService {
             data.put("name", sd.getName());
         }
 
+        if (sd.getEducation() != null) {
+            data.put("alumniOf", sd.getEducation());
+        }
+
+        if (sd.getBrand() != null) {
+            data.put("brand", toMap(sd.getBrand()));
+        }
+
         return data;
     }
 
     private Map<String, Object> toMap(StructuredDataArticle sd) {
         Map<String, Object> data = new LinkedHashMap<>();
         data.put("@context", "https://schema.org/");
-        data.put("@type", "Article");
+        data.put("@type", sd.getType());
 
         if (sd.getAuthor() != null) {
             data.put("author", toMap(sd.getAuthor()));
@@ -314,7 +394,9 @@ public class StructuredDataService {
             data.put("reviewedBy", toMap(sd.getReviewer()));
         }
         data.put("audience", toMap(sd.getAudience()));
-        data.put("publisher", toMap(sd.getPublisher()));
+        if (sd.getPublisherOrganization() != null) {
+            data.put("publisher", toMap(sd.getPublisherOrganization()));
+        }
         data.put("inLanguage", "sv");
         data.put("headline", sd.getHeadline());
         data.put("image", sd.getImage());
@@ -352,6 +434,16 @@ public class StructuredDataService {
         }
 
         data.put("mainEntity", sdMainEntity);
+
+        return data;
+    }
+
+    private Map<String, Object> toMap(StructuredDataProfilePage sd) {
+        Map<String, Object> data = new LinkedHashMap<>();
+        data.put("@context", "https://schema.org/");
+        data.put("@type", "ProfilePage");
+
+        data.put("mainEntity", toMap(sd.getPerson()));
 
         return data;
     }
@@ -533,6 +625,84 @@ public class StructuredDataService {
         return data;
     }
 
+    private Map<String, Object> toMap(StructuredDataCreativeWorkSoftwareApplication sd) {
+        Map<String, Object> data = new LinkedHashMap<>();
+        data.put("@context", "https://schema.org/");
+        data.put("@type", sd.getType());
+
+        data.put("name", sd.getName());
+        data.put("description", sd.getDescription());
+        data.put("url", sd.getURL());
+        data.put("operatingSystem", sd.getOperatingSystem());
+        data.put("applicationCategory", sd.getApplicationCategory());
+
+        if (!StringUtil.isEmpty(sd.getImage())) {
+            data.put("image", sd.getImage());
+        }
+
+        if (!StringUtil.isEmpty(sd.getApplicationSubCategory())) {
+            data.put("applicationSubCategory", sd.getApplicationSubCategory());
+        }
+
+        if (sd.getCreatorPerson() != null) {
+            data.put("creator", toMap(sd.getCreatorPerson()));
+        }
+
+        if (sd.getAuthorPerson() != null) {
+            data.put("author", toMap(sd.getAuthorPerson()));
+        }
+
+        if (sd.getPublisherPerson() != null) {
+            data.put("publisher", toMap(sd.getPublisherPerson()));
+        }
+
+        return data;
+    }
+
+    private Map<String, Object> toMap(StructuredDataCreativeWork sd) {
+        Map<String, Object> data = new LinkedHashMap<>();
+        data.put("@context", "https://schema.org/");
+        data.put("@type", sd.getType());
+
+        data.put("name", sd.getName());
+        data.put("description", sd.getDescription());
+        data.put("url", sd.getURL());
+
+        if (!StringUtil.isEmpty(sd.getImage())) {
+            data.put("image", sd.getImage());
+        }
+
+        if (!StringUtil.isEmpty(sd.getHeadline())) {
+            data.put("headline", sd.getHeadline());
+        }
+
+        if (sd.getCreatorPerson() != null) {
+            data.put("creator", toMap(sd.getCreatorPerson()));
+        }
+
+        if (sd.getAuthorPerson() != null) {
+            data.put("author", toMap(sd.getAuthorPerson()));
+        }
+
+        if (sd.getPublisherPerson() != null) {
+            data.put("publisher", toMap(sd.getPublisherPerson()));
+        }
+
+        return data;
+    }
+
+    public String toJSON(StructuredDataCreativeWork structuredDataCreativeWork) throws Exception {
+        return toJSON(0, toMap(structuredDataCreativeWork));
+    }
+
+    public String toJSON(StructuredDataCreativeWorkSoftwareApplication structuredDataSoftwareApplication) throws Exception {
+        return toJSON(0, toMap(structuredDataSoftwareApplication));
+    }
+
+    public String toJSON(StructuredDataProfilePage structuredDataProfilePage) throws Exception {
+        return toJSON(0, toMap(structuredDataProfilePage));
+    }
+
     public String toJSON(StructuredDataArticle structuredDataArticle) throws Exception {
         return toJSON(0, toMap(structuredDataArticle));
     }
@@ -553,8 +723,8 @@ public class StructuredDataService {
         return toJSON(0, toMap(structuredDataBreadcrumbList));
     }
 
-    public String toJSON(StructuredDataWebPage structuredDataWebPage) throws Exception {
-        return toJSON(0, toMap(structuredDataWebPage));
+    public String toJSON(StructuredDataWebPage sdWebPage) throws Exception {
+        return toJSON(0, toMap(sdWebPage));
     }
 
     public String toJSON(StructuredDataOrganization sdOrganization) throws Exception {
@@ -567,6 +737,10 @@ public class StructuredDataService {
 
     public String toJSON(StructuredDataAboutPage sdAboutPage) throws Exception {
         return toJSON(0, toMap(sdAboutPage));
+    }
+
+    public String toJSON(StructuredDataDonateAction sdDonateAction) throws Exception {
+        return toJSON(0, toMap(sdDonateAction));
     }
 
     private String toJSON(int level, Map<String, Object> data) throws Exception {

@@ -1,5 +1,7 @@
 package lattesite.css;
 
+import lattesite.utils.StringUtil;
+
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -50,14 +52,28 @@ public class StyleContext {
     }
 
     public StyleBlock addFontFace(String fontFamily, String src) {
-        return addFontFace(fontFamily, src, "auto");
+        FontFace fontFace = new FontFace(fontFamily, src);
+        return addFontFace(fontFace);
     }
 
-    public StyleBlock addFontFace(String fontFamily, String src, String fontDisplay) {
+    public StyleBlock addFontFace(FontFace fontFace) {
         StyleBlock block = new StyleBlock("@font-face");
-        block.setProperty("font-family", fontFamily);
-        block.setProperty("src", src);
-        block.setProperty("font-display", fontDisplay);
+        block.setProperty("font-family", fontFace.getFontFamilyName());
+        block.setProperty("src", fontFace.getSrc());
+
+        if (!StringUtil.isEmpty(fontFace.getFontDisplay())) {
+            block.setProperty("font-display", fontFace.getFontDisplay());
+        }
+        if (!StringUtil.isEmpty(fontFace.getFontWeight())) {
+            block.setProperty("font-weight", fontFace.getFontWeight());
+        }
+        if (!StringUtil.isEmpty(fontFace.getFontStyle())) {
+            block.setProperty("font-style", fontFace.getFontStyle());
+        }
+        if (!StringUtil.isEmpty(fontFace.getUnicodeRange())) {
+            block.setProperty("unicode-range", fontFace.getUnicodeRange());
+        }
+
         this.blocks.add(block);
         return block;
     }

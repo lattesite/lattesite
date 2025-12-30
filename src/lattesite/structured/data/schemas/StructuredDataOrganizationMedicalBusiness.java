@@ -2,9 +2,9 @@ package lattesite.structured.data.schemas;
 
 import lattesite.structured.data.enumeration.IsicV4Category;
 
-public class StructuredDataMedicalBusiness extends StructuredDataOrganization {
+public class StructuredDataOrganizationMedicalBusiness extends StructuredDataOrganization {
 
-    public StructuredDataMedicalBusiness(
+    public StructuredDataOrganizationMedicalBusiness(
             String name,
             String url,
             String description,
@@ -14,7 +14,6 @@ public class StructuredDataMedicalBusiness extends StructuredDataOrganization {
             String knowsAbout
     ) {
         super(
-                "MedicalBusiness",
                 name,
                 url,
                 description,
@@ -23,6 +22,10 @@ public class StructuredDataMedicalBusiness extends StructuredDataOrganization {
                 keywords,
                 knowsAbout
         );
+    }
+
+    public String getType() {
+        return "MedicalBusiness";
     }
 
 }
